@@ -22,9 +22,9 @@ namespace HomeWork
 			Select("Authors");
 			Console.WriteLine();
 			Select("Books");
-			List<string> strings = new List<string> { /*"Books.title",*/"Authors.author_id", "Authors.first_name", "Authors.last_name" };
-			List<string> tables = new List<string> { /*"Books",*/ "Authors" };
-			Select(tables, strings, @"Authors.first_name = 'James'");
+			List<string> strings = new List<string> { "Books.title", "Authors.author_id", "Authors.first_name", "Authors.last_name" };
+			List<string> tables = new List<string> { "Books", "Authors" };
+			Select(tables, strings, @" Books.author = Authors.author_id");
 		}
 
 		static void Select(string table_name)
@@ -53,6 +53,7 @@ namespace HomeWork
 							Console.WriteLine();							
 						}
 					}
+					reader.Close();
 				}
 			}
 			//Console.WriteLine("Подключение закрыто");
