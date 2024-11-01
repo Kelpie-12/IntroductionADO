@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{B8BE362A-2F1C-4B0F-AD00-ABCCF1726E60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library_2", "Library_2\Library_2.csproj", "{A0A89B5A-7E34-49E2-8DA8-45FD81B833CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork", "HomeWork\HomeWork.csproj", "{D53E3C0C-52E9-449E-8C6E-A21EAEB9DC17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8BE362A-2F1C-4B0F-AD00-ABCCF1726E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8BE362A-2F1C-4B0F-AD00-ABCCF1726E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8BE362A-2F1C-4B0F-AD00-ABCCF1726E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8BE362A-2F1C-4B0F-AD00-ABCCF1726E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0A89B5A-7E34-49E2-8DA8-45FD81B833CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0A89B5A-7E34-49E2-8DA8-45FD81B833CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0A89B5A-7E34-49E2-8DA8-45FD81B833CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0A89B5A-7E34-49E2-8DA8-45FD81B833CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D53E3C0C-52E9-449E-8C6E-A21EAEB9DC17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D53E3C0C-52E9-449E-8C6E-A21EAEB9DC17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D53E3C0C-52E9-449E-8C6E-A21EAEB9DC17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D53E3C0C-52E9-449E-8C6E-A21EAEB9DC17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36C3B285-6EBD-4339-8745-317219738CE6}
+	EndGlobalSection
+EndGlobal
