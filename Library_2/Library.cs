@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace Library_2
 {
@@ -19,18 +22,6 @@ namespace Library_2
 		{
 			connection = new SqlConnection(ConnectionString);
 		}
-		public static void InsertBook(string title, string last_name, string first_name)
-		{
-			int author = GetAuthorID(first_name, last_name);
-			string cmd = $"INSERT INTO Books(title, author) VALUES('@title', @author_id)";
-
-			SqlCommand command = new SqlCommand(cmd, connection);		
-			command.Parameters.AddWithValue("@title", title);
-			command.Parameters.AddWithValue("@author_id", author);
-			connection.Open();
-			command.ExecuteNonQuery();
-			connection.Close();
-		}
 		public static int GetAuthorID(string first_name, string last_name)
 		{
 			string cmd = $"(SELECT author_id FROM Authors WHERE first_name = @first_name AND last_name = @last_name)";
@@ -45,12 +36,24 @@ namespace Library_2
 
 			return author;
 		}
+		public static void InsertBook(string title, string last_name, string first_name)
+		{
+			int author = GetAuthorID(first_name, last_name);
+			// END 
+			string cmd = $@" IF NOT EXISTS (SELECT book_id FROM Books WHERE author = @author_id AND title = @title) BEGIN INSERT Books(title, author) VALUES(@title, @author_id) END";
+			SqlCommand command = new SqlCommand(cmd, connection);
+			command.Parameters.Add("@title", SqlDbType.NVarChar,150 ).Value=title;
+			command.Parameters.Add("@author_id", SqlDbType.Int ).Value= author;
+			connection.Open();
+			command.ExecuteNonQuery();
+			connection.Close();
+		}
 		public static void InsertAuthor(string first_name, string last_name)
 		{
 			string sql = $"INSERT INTO Authors(first_name, last_name) VALUES('@first_name', '@last_name')";
 			SqlCommand command = new SqlCommand(sql, connection);
-			command.Parameters.AddWithValue("@first_name", first_name);
-			command.Parameters.AddWithValue("@last_name", last_name);	
+			command.Parameters.Add("@first_name", SqlDbType.NVarChar, 150).Value = first_name;
+			command.Parameters.Add("@last_name", SqlDbType.NVarChar, 150).Value = last_name;
 			connection.Open();
 			command.ExecuteNonQuery();
 			connection.Close();
@@ -58,20 +61,19 @@ namespace Library_2
 		public static void Select(string columns, string table, string condition)
 		{
 
-			string cmd = $"SELECT {columns} FROM {table} WHERE {condition}";
-			SqlCommand command = new SqlCommand(cmd, connection);
+			string sql = $"SELECT {columns} FROM {table} WHERE {condition}";
+			SqlCommand command = new SqlCommand(sql, connection);
 			//command.Parameters.AddWithValue("@columns", columns);
 			//command.Parameters.AddWithValue("@table",table);
 			//command.Parameters.AddWithValue("@condition", condition);
-		
 			connection.Open();
-			SqlDataReader reader = command.ExecuteReader();
+			SqlDataReader reader = command.ExecuteReader();					
 			if (reader.HasRows)
 			{
 				int padding = 32;
 				for (int i = 0; i < reader.FieldCount; i++)
 					Console.Write(reader.GetName(i).PadRight(padding));
-				Console.WriteLine();
+				Console.WriteLine();					
 				while (reader.Read())
 				{
 					for (int i = 0; i < reader.FieldCount; i++)
@@ -79,13 +81,13 @@ namespace Library_2
 						Console.Write(reader[i].ToString().PadRight(padding));
 					}
 					Console.WriteLine();
-				}
-
+				}			
 			}
 			reader.Close();
 			connection.Close();
 
 		}
+		
 		public static void SelectBooks()
 		{
 			SqlCommand cmd = new SqlCommand("SELECT * FROM Books", connection);
