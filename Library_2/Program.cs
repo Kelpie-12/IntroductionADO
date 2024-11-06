@@ -3,7 +3,7 @@
 namespace Library_2
 {
 	class Program
-	{		
+	{
 		static void Main(string[] args)
 		{
 			//SelectAuthors();
@@ -19,16 +19,17 @@ namespace Library_2
 			//Console.WriteLine(Library.GetAuthorID("James", "Cameron"));
 			//Console.Write("Введите название книги ");
 			//string title = Console.ReadLine();
-			//Console.Write("Ввудите имя автора ");
-			//string first_name = Console.ReadLine();
-			//Console.Write("Введите фамилию автора ");
-			//string last_name = Console.ReadLine();
-			//Library.InsertBook(title,last_name,first_name);
+			//Console.Write("Ввeдите имя автора ");
+			// string first_name = "Scott";
+			// Console.Write("Введите фамилию автора ");
+			// string last_name =  "Muller";
+			// Library.InsertBook(title,last_name,first_name);
 			//Library.SelectBooks();
 			//Library.SelectAuthors();
-			//Library.Select("title,last_name,first_name", "Books, Authors", "author=author_id; DROP TABLE Genres");
-			Library.SelectAuthors();
-			Console.WriteLine(Library.GetAuthorID("Scott", "Muller"));
+			//Library.Select("title,last_name,first_name", "Books, Authors", "author=author_id");
+			Library.Select("last_name","Authors", "author_id=1");
+			//Console.WriteLine(Library.GetAuthorID("Scott", "Muller"));
+			Console.WriteLine("");
 		}
 
 

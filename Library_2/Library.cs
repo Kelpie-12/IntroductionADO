@@ -22,9 +22,11 @@ namespace Library_2
 		public static void InsertBook(string title, string last_name, string first_name)
 		{
 			int author = GetAuthorID(first_name, last_name);
-			string cmd = $"INSERT Books(title,author) VALUES ('{title}',{author})";
+			string cmd = $"INSERT INTO Books(title, author) VALUES('@title', @author_id)";
 
-			SqlCommand command = new SqlCommand(cmd, connection);
+			SqlCommand command = new SqlCommand(cmd, connection);		
+			command.Parameters.AddWithValue("@title", title);
+			command.Parameters.AddWithValue("@author_id", author);
 			connection.Open();
 			command.ExecuteNonQuery();
 			connection.Close();
@@ -45,8 +47,10 @@ namespace Library_2
 		}
 		public static void InsertAuthor(string first_name, string last_name)
 		{
-			string sql = $"INSERT Authors(first_name,last_name) VALUES('{first_name}','{last_name}')";
+			string sql = $"INSERT INTO Authors(first_name, last_name) VALUES('@first_name', '@last_name')";
 			SqlCommand command = new SqlCommand(sql, connection);
+			command.Parameters.AddWithValue("@first_name", first_name);
+			command.Parameters.AddWithValue("@last_name", last_name);	
 			connection.Open();
 			command.ExecuteNonQuery();
 			connection.Close();
@@ -56,7 +60,10 @@ namespace Library_2
 
 			string cmd = $"SELECT {columns} FROM {table} WHERE {condition}";
 			SqlCommand command = new SqlCommand(cmd, connection);
-			//command.Parameters.Add("@id",System.Data.SqlDbType.NVarChar).Value=columns;
+			//command.Parameters.AddWithValue("@columns", columns);
+			//command.Parameters.AddWithValue("@table",table);
+			//command.Parameters.AddWithValue("@condition", condition);
+		
 			connection.Open();
 			SqlDataReader reader = command.ExecuteReader();
 			if (reader.HasRows)
@@ -108,9 +115,10 @@ namespace Library_2
 			SqlCommand cmd = new SqlCommand();
 			
 			cmd.Connection = connection;
-			cmd.CommandText = "SELECT first_name  FROM Authors";
+			cmd.CommandText = "SELECT * FROM Authors";
 			//cmd.Parameters.Add("@id",System.Data.SqlDbType.Int);
-			cmd.Parameters.AddWithValue("@first_name", System.Data.SqlDbType.NVarChar).Value="first_name";
+			//cmd.Parameters.AddWithValue("@first_name", System.Data.SqlDbType.NVarChar).Value="first_name";
+			//cmd.Parameters.AddWithValue("@last_name", System.Data.SqlDbType.NVarChar).Value= "last_name";
 			//cmd.Parameters.AddWithValue("@last_name", "last_name");
 			//cmd.Parameters.AddWithValue("@Table", "Authors");
 
