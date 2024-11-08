@@ -1,11 +1,8 @@
-﻿using System;
+﻿using HW_Author.Models;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HW_Author.Models;
+using System.Data.SqlClient;
 
 namespace HW_Author.Repositories
 {
@@ -79,7 +76,7 @@ namespace HW_Author.Repositories
 			{
 				conn.Open();
 				command.Connection = conn;
-				command.CommandText = "SELECT * FROM Authors WHERE author_id=@id or first_name LIKE @first + '%' or last_name LIKE @last + '%' ORDER BY author_id  ";
+				command.CommandText = "SELECT * FROM Authors WHERE author_id=@id  or first_name LIKE @first + '%' or last_name LIKE @last + '%' ORDER BY author_id  ";
 				command.Parameters.Add("@id", SqlDbType.Int).Value = authorId;
 				command.Parameters.Add("@first", SqlDbType.NVarChar, 150).Value = authorLastName;
 				command.Parameters.Add("@last", SqlDbType.NVarChar, 150).Value = authorFirstName;
