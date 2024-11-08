@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labrary_4", "Labrary_4\Labr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW Author", "HW Author\HW Author.csproj", "{AB790682-B136-478D-A931-3E91D27C8F75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy", "Academy\Academy.csproj", "{ECCFEB68-F3A4-4FDD-83D2-34338F449A6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AB790682-B136-478D-A931-3E91D27C8F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB790682-B136-478D-A931-3E91D27C8F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB790682-B136-478D-A931-3E91D27C8F75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECCFEB68-F3A4-4FDD-83D2-34338F449A6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECCFEB68-F3A4-4FDD-83D2-34338F449A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECCFEB68-F3A4-4FDD-83D2-34338F449A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECCFEB68-F3A4-4FDD-83D2-34338F449A6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
