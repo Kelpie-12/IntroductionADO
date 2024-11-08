@@ -31,6 +31,7 @@
 			this.textBoxQuery = new System.Windows.Forms.TextBox();
 			this.buttonExecute = new System.Windows.Forms.Button();
 			this.dataGridView = new System.Windows.Forms.DataGridView();
+			this.comboBoxTable = new System.Windows.Forms.ComboBox();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -60,16 +61,27 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView.Location = new System.Drawing.Point(12, 51);
+			this.dataGridView.Location = new System.Drawing.Point(12, 102);
 			this.dataGridView.Name = "dataGridView";
 			this.dataGridView.Size = new System.Drawing.Size(776, 387);
 			this.dataGridView.TabIndex = 2;
+			// 
+			// comboBoxTable
+			// 
+			this.comboBoxTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxTable.FormattingEnabled = true;
+			this.comboBoxTable.Location = new System.Drawing.Point(12, 51);
+			this.comboBoxTable.Name = "comboBoxTable";
+			this.comboBoxTable.Size = new System.Drawing.Size(703, 21);
+			this.comboBoxTable.TabIndex = 3;
+			this.comboBoxTable.SelectedIndexChanged += new System.EventHandler(this.comboBoxTable_SelectedIndexChanged);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(800, 501);
+			this.Controls.Add(this.comboBoxTable);
 			this.Controls.Add(this.dataGridView);
 			this.Controls.Add(this.buttonExecute);
 			this.Controls.Add(this.textBoxQuery);
@@ -86,6 +98,7 @@
 		private System.Windows.Forms.TextBox textBoxQuery;
 		private System.Windows.Forms.Button buttonExecute;
 		private System.Windows.Forms.DataGridView dataGridView;
+		private System.Windows.Forms.ComboBox comboBoxTable;
 	}
 }
 
