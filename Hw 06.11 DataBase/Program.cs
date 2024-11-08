@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Hw_06._11_DataBase.Presenter;
+using Hw_06._11_DataBase.Repository;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-namespace Labrary_4
+namespace Hw_06._11_DataBase
 {
 	internal static class Program
 	{
@@ -18,9 +19,12 @@ namespace Labrary_4
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-		
-
-			Application.Run(new MainForm());
+			string connectionString = ConfigurationManager.ConnectionStrings["ToLibrary"].ConnectionString;
+			var r = new AuthorsRepository(connectionString);
+			var view = new MainForms();
+			
+			new AuthorsPresenter(view, r);
+			Application.Run(view);
 		}
 	}
 }

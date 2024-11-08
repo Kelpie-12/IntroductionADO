@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+using HW_Author.Views;
+using HW_Author.Models;
+using HW_Author.Repositories;
+using HW_Author.Presenters;
 
-
-namespace Labrary_4
+namespace HW_Author
 {
 	internal static class Program
 	{
@@ -18,9 +21,10 @@ namespace Labrary_4
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-		
-
-			Application.Run(new MainForm());
+			string connectionString = ConfigurationManager.ConnectionStrings["ToLibrary"].ConnectionString;
+			IMainView view = new MainView();
+			new MainPresenter(view,connectionString);
+			Application.Run((Form)view);
 		}
 	}
 }
