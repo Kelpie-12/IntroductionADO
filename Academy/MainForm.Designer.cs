@@ -95,7 +95,6 @@
 			// cbDirection
 			// 
 			this.cbDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cbDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbDirection.FormattingEnabled = true;
 			this.cbDirection.Location = new System.Drawing.Point(652, 15);
 			this.cbDirection.Name = "cbDirection";
@@ -105,7 +104,6 @@
 			// cbGroupStudent
 			// 
 			this.cbGroupStudent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cbGroupStudent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbGroupStudent.FormattingEnabled = true;
 			this.cbGroupStudent.Location = new System.Drawing.Point(383, 15);
 			this.cbGroupStudent.Name = "cbGroupStudent";
@@ -135,11 +133,13 @@
 			// textBoxSearchStudent
 			// 
 			this.textBoxSearchStudent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxSearchStudent.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this.textBoxSearchStudent.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.RecentlyUsedList;
 			this.textBoxSearchStudent.Location = new System.Drawing.Point(97, 18);
 			this.textBoxSearchStudent.Name = "textBoxSearchStudent";
 			this.textBoxSearchStudent.Size = new System.Drawing.Size(191, 29);
 			this.textBoxSearchStudent.TabIndex = 2;
-			this.textBoxSearchStudent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxSearchStudent_KeyDown);
+			this.textBoxSearchStudent.TextChanged += new System.EventHandler(this.textBoxSearchStudent_TextChanged);
 			// 
 			// statusStripStudents
 			// 

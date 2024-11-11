@@ -21,12 +21,28 @@ namespace Academy
 		void CountRows(object sender, EventArgs e)
 		{
 			toolStripStatusLabelStudentCount.Text = $"Колличество студентов {dataGridViewStudents.RowCount}";
-			
+
 		}
 
-		private void textBoxSearchStudent_KeyDown(object sender, KeyEventArgs e)
-		{
 
+		private void textBoxSearchStudent_TextChanged(object sender, EventArgs e)
+		{
+			string[] values = textBoxSearchStudent.Text.Split(' ');
+			if (values.Length > 1)
+				values = values.Where(v => v != "").ToArray();
+			string search_pattern = "";
+			if (values.Length == 1)
+				search_pattern = $"last_name LIKE '{values[0]}' + '%'  or first_name LIKE '{values[0]}' + '%'  ";
+			else
+				search_pattern = $"(last_name LIKE '{values[0]}'  or first_name LIKE '{values[1]}' ) or ( first_name LIKE '{values[0]}' + '%' or last_name LIKE '{values[1]}') ";
+			//else search_pattern = $"last_name LIKE '{values[1]}'  or first_name LIKE '{values[0]}' ";
+
+
+
+			dataGridViewStudents.DataSource = Connector.Select(
+				"last_name, first_name, birth_date, group_name, derection_name",
+				"Students, Groups, Directions",
+				$"[group]=group_id and direction = direction_id AND ({search_pattern})");
 		}
 	}
 }
