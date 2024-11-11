@@ -24,5 +24,9 @@ namespace Academy
 			
 		}
 
+		private void textBoxSearchStudent_KeyDown(object sender, KeyEventArgs e)
+		{
+
+		}
 	}
 }
