@@ -13,88 +13,103 @@ namespace Hw_Acadeny
 {
 	public partial class MainForm : Form
 	{
-		DataTable dtStudents;
-		DataTable dtGroups;
-		DataTable dtDirection;
-		List<string> a;
+
 		public MainForm()
 		{
 			InitializeComponent();
-			LoadAllDataTable();
-			dataGridViewStudents.Rows.CollectionChanged += new CollectionChangeEventHandler(CountRows);
+			LoadStudents();
+			LoadGroups();
+			tabControlMain.TabPages.Remove(tbAddNewGroup);
+			Events();
 		}
-		void CountRows(object sender, EventArgs e)
+		void Events()
 		{
-			toolStripStatusLabelStudentCount.Text = $"Колличество студентов {dataGridViewStudents.RowCount}";
-		}
-		void LoadAllDataTable()
-		{
-			dtStudents = Connector.Select("last_name, first_name, birth_date, group_name, derection_name, [age] = (DATEDIFF(DAY, birth_date, GETDATE())) / 365", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
-			dataGridViewStudents.DataSource = dtStudents;
-			//dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name, [age] = (DATEDIFF(DAY, birth_date, GETDATE())) / 365", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
-			LoadComboBox();
-		}
-		public void LoadComboBox()
-		{
-			a = new List<string>();
-			dtGroups = Connector.Select("*", "Groups");
-			cbGroupStudent.Items.Clear();
-			string tmp;
-			for (int i = 0; i < dtStudents.Rows.Count; i++)
+			btnAddGroup.Click += delegate
 			{
-				tmp = dtStudents.Rows[i]["group_name"].ToString();
-				if (!cbGroupStudent.Items.Contains(tmp))
-					cbGroupStudent.Items.Add(tmp);
-			}
+				foreach (TabPage item in tabControlMain.TabPages)
+					tabControlMain.TabPages.Remove(item);				
+				tabControlMain.TabPages.Add(tbAddNewGroup);
+				DataTable dataTable = new DataTable();
+				dataTable = Connector.Select("derection_name", "Directions ORDER BY direction_id ");
+				for (int i = 0; i < dataTable.Rows.Count; i++)
+					cbDirectionAddGroup.Items.Add(dataTable.Rows[i]["derection_name"]);
+			};
+			btnSaveNewGroup.Click += delegate
+			{
+				Connector.Insert("Groups (group_id,group_name,direction)", $"{Convert.ToInt32(textbIdAddNewGroup.Text)},'{textbNameAddGroup.Text}',{Convert.ToInt32(cbDirectionAddGroup.SelectedIndex) + 1}");
+				tabControlMain.TabPages.Add(tabPageStudent);
+				tabControlMain.TabPages.Add(tabPageGroups);
+				tabControlMain.TabPages.Add(tabPageDiscipline);
+				tabControlMain.TabPages.Add(tabPageTeacher);
+			};
+			btnCancel.Click += delegate
+			{				
+				tabControlMain.TabPages.Remove(tbAddNewGroup);
+				tabControlMain.TabPages.Add(tabPageStudent);
+				tabControlMain.TabPages.Add(tabPageGroups);
+				tabControlMain.TabPages.Add(tabPageDiscipline);
+				tabControlMain.TabPages.Add(tabPageTeacher);
+			};
+		}
+		void LoadStudents()
+		{
+			dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
+			dataGridViewStudents.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
+			SetStatusBarText(dataGridViewStudents.Rows, new EventArgs());
+		}
+		void LoadGroups()
+		{
+			dataGridViewGroups.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
+			dataGridViewGroups.DataSource = Connector.Select
+				("group_name,[Nubers of Student]=COUNT(student_id),derection_name",
+				"Groups,Directions,Students"
+				, "direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
+			//cbDirectionOnGroup.Items.AddRange(Connector.Select("derection_name", "Directions").Rows[0].ItemArray);
+		}
+		void SetStatusBarText(object sender, EventArgs e)
+		{
+			toolStripStatusLabelStudentCount.Text = $"Number of {nameof(tabControlMain.SelectedTab.Text)}: {(sender as DataGridViewRowCollection).Count - 1}";
+			//toolStripStatusLabelStudentCount.Text = $"Number of {nameof(tabControlMain.SelectedTab.Text.ToLower)}: {dataGridViewStudents.RowCount}";
+		}
 
-			dtDirection = Connector.Select("*", "Directions");
-			cbDirection.Items.Clear();
-			cbDirection.Items.Add("");
-			for (int i = 0; i < dtDirection.Rows.Count; i++)
-			{
-				tmp = dtDirection.Rows[i]["derection_name"].ToString();
-				if (!cbDirection.Items.Contains(tmp))
-					cbDirection.Items.Add(tmp);
-				a.Add(tmp);
-			}
-			a.Sort();
-		}
 
 		private void textBoxSearchStudent_TextChanged(object sender, EventArgs e)
 		{
-			if (cbGroupStudent.SelectedIndex != -1)
-				dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name , [age] = (DATEDIFF(DAY, birth_date, GETDATE())) / 365", "Students,Groups", $"(first_name LIKE '{textBoxSearchStudent.Text}' +'%' or last_name LIKE '{textBoxSearchStudent.Text}' +'%') AND [group]=group_id AND group_name = '{cbGroupStudent.Text}' ");
-			else if (cbDirection.SelectedIndex != -1)
-				dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name, [age] = (DATEDIFF(DAY, birth_date, GETDATE())) / 365 ", "Students,Groups,Directions", $"(first_name LIKE '{textBoxSearchStudent.Text}' +'%' or last_name LIKE '{textBoxSearchStudent.Text}' +'%') AND [group]=group_id and direction = direction_id AND derection_name = '{cbDirection.Text}' ");
+			string[] values = textBoxSearchStudent.Text.Split(' ');
+			if (values.Length > 1)
+				values = values.Where(v => v != "").ToArray();
+			string search_pattern = "";
+			if (values.Length == 1)
+				search_pattern = $"last_name LIKE '{values[0]}' + '%'  or first_name LIKE '{values[0]}' + '%'  ";
 			else
-				dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name ", "Students,Groups,Directions", $"(first_name LIKE '{textBoxSearchStudent.Text}' +'%' or last_name LIKE '{textBoxSearchStudent.Text}' +'%') AND [group]=group_id and direction = direction_id ");
+				search_pattern = $"(last_name LIKE '{values[0]}'  or first_name LIKE '{values[1]}' ) or ( first_name LIKE '{values[0]}' + '%' or last_name LIKE '{values[1]}') ";
+			//else search_pattern = $"last_name LIKE '{values[1]}'  or first_name LIKE '{values[0]}' ";
 
+			dataGridViewStudents.DataSource = Connector.Select(
+				"last_name, first_name, birth_date, group_name, derection_name",
+				"Students, Groups, Directions",
+				$"[group]=group_id and direction = direction_id AND ({search_pattern})");
 		}
 
-		private void cbGroupStudent_SelectedIndexChanged(object sender, EventArgs e)
+		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			textBoxSearchStudent.Clear();
-			dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name, [age] = (DATEDIFF(DAY, birth_date, GETDATE())) / 365", "Students, Groups, Directions", $" [group]=group_id and direction = direction_id AND group_name = '{cbGroupStudent.Text}' ");
-			dtStudents = Connector.Select("last_name, first_name, birth_date, group_name, derection_name, [age] = (DATEDIFF(DAY, birth_date, GETDATE())) / 365", "Students, Groups, Directions", $"[group]=group_id and direction = direction_id AND group_name = '{cbGroupStudent.Text}' ");
-			cbDirection.Items.Clear();
-			cbDirection.Items.Add(dtStudents.Rows[0]["derection_name"]);
-		}
-
-		private void cbDirection_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			textBoxSearchStudent.Clear();
-			dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name, [age] = (DATEDIFF(DAY, birth_date, GETDATE())) / 365", "Students, Groups, Directions", $"[group]=group_id and direction = direction_id AND  derection_name = '{cbDirection.Text}'");
-			dtStudents = Connector.Select("last_name, first_name, birth_date, group_name, derection_name, [age] = (DATEDIFF(DAY, birth_date, GETDATE())) / 365", "Students, Groups, Directions", $"[group]=group_id and direction = direction_id AND derection_name = '{cbDirection.Text}' ");
-			dtDirection = Connector.Select("group_name", "Groups, Directions", $"direction = direction_id AND derection_name = '{cbDirection.Text}'");
-			cbGroupStudent.Items.Clear();
-			string tmp;
-			for (int i = 0; i < dtStudents.Rows.Count; i++)
+			switch ((sender as TabControl).SelectedIndex)
 			{
-				tmp = dtStudents.Rows[i]["group_name"].ToString();
-				if (!cbGroupStudent.Items.Contains(tmp))
-					cbGroupStudent.Items.Add(tmp);
+				case 0:
+					SetStatusBarText(dataGridViewStudents.Rows, e);
+					break;
+				case 1:
+					SetStatusBarText(dataGridViewGroups.Rows, e);
+					break;
 			}
-
 		}
+
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+			SetStatusBarText((dataGridViewStudents.Rows), e);
+		}
+
+
+
 	}
 }

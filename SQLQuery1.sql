@@ -1,1 +1,4 @@
-﻿ IF NOT EXISTS (SELECT book_id FROM Books WHERE author = @author_id AND title = @title) BEGIN INSERT Books(title, author) VALUES(@title, @author_id) END
+﻿use PD_311_HW;
+go
+
+select * from Groups

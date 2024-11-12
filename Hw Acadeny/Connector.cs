@@ -28,7 +28,7 @@ namespace Hw_Acadeny
 			SqlCommand command = new SqlCommand(cmd, sqlConnection);
 			sqlConnection.Open();
 			SqlDataReader reader = command.ExecuteReader();
-			if (reader.Read())
+			if (reader.HasRows)
 			{
 				for (int i = 0; i < reader.FieldCount; i++)
 					dt.Columns.Add(reader.GetName(i));
@@ -45,6 +45,14 @@ namespace Hw_Acadeny
 			sqlConnection.Close();
 
 			return dt;
+		}
+		public static void Insert(string tables, string values)
+		{
+			string cmd = $"INSERT INTO  {tables} VALUES({values})";
+			SqlCommand command = new SqlCommand(cmd, sqlConnection);
+			sqlConnection.Open();			
+			command.ExecuteNonQuery();			
+			sqlConnection.Close();
 		}
 
 

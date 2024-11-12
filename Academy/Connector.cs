@@ -27,7 +27,7 @@ namespace Academy
 			SqlCommand command = new SqlCommand(cmd, sqlConnection);
 			sqlConnection.Open();
 			SqlDataReader reader = command.ExecuteReader();
-			if (reader.Read())
+			if (reader.HasRows)
 			{
 				for (int i = 0; i < reader.FieldCount; i++)
 					dt.Columns.Add(reader.GetName(i));
