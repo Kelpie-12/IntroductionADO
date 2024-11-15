@@ -59,25 +59,26 @@ namespace Hw_Acadeny
 		}
 
 		public static void UpdateGroup(Group group)
-		{			
-			string cmd = $"UPDATE Groups SET direction='{group.Direction}'," +
-				$" learning_form='{group.Learning_form}'," +
+		{
+			string cmd = $"UPDATE Groups SET direction='{group.Direction+1}'," +
+				$" learning_form='{group.Learning_form+1}'," +
 				$" learning_time = '{group.Learning_time}'," +
 				$" learning_days = '{group.Learning_days}'," +
 				$" start_date = '{group.Start_date}'," +
 				$"  group_name= '{group.Group_name}' " +
 				$" WHERE  group_id = '{group.Group_id}' ";
 
-			using (var command = new SqlCommand(cmd, sqlConnection))
-			{
-				sqlConnection.Open();
-				command.ExecuteNonQuery();
-			}
+			var command = new SqlCommand(cmd, sqlConnection);
+			sqlConnection.Open();
+			command.ExecuteNonQuery();
+			sqlConnection.Close();
+
+
 		}
 		public static void AddGroup(Group group)
 		{
 			string cmd = $"INSERT INTO Groups VALUES({group.Group_id}, " +
-				$"'{group.Group_name}' ,{group.Direction+1}, {group.Learning_form+1}," +
+				$"'{group.Group_name}' ,{group.Direction + 1}, {group.Learning_form + 1}," +
 				$" '{group.Start_date}',  '{group.Learning_time}' , {group.Learning_days} )";
 			var command = new SqlCommand(cmd, sqlConnection);
 			sqlConnection.Open();

@@ -65,7 +65,6 @@ namespace Hw_Acadeny
 				group.Learning_time = dateTPGroupTime.Value.ToShortTimeString();
 				group.Learning_days = GetWeekDays();
 				Connector.AddGroup(group);
-
 			}
 			else
 			{
@@ -77,6 +76,8 @@ namespace Hw_Acadeny
 				group.Learning_days = GetWeekDays();
 				Connector.UpdateGroup(group);
 			}
+			Clear();
+			
 		}
 		private string FormatDay()
 		{
@@ -86,6 +87,13 @@ namespace Hw_Acadeny
 			r += date.Month.ToString() + "-";
 			r += date.Day.ToString();
 			return r;
+		}
+
+		private void Clear()
+		{
+			textBGroupName.Text = string.Empty;
+			cbGroupDirection.SelectedIndex = 0;
+			cbLearningForm.SelectedIndex = 0;
 		}
 
 	}
