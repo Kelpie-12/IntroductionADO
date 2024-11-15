@@ -1,23 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Runtime.CompilerServices;
+
 
 namespace Academy
 {
 	public partial class MainForm : Form
 	{
+		AddGroupForm addGroupForm;
 		public MainForm()
 		{
 			InitializeComponent();
 			LoadStudents();
 			LoadGroups();
-
+			addGroupForm = new AddGroupForm();
+			AllocConsole();
 		}
 		void LoadStudents()
 		{
@@ -32,7 +33,8 @@ namespace Academy
 				("group_name,[Nubers of Student]=COUNT(student_id),derection_name",
 				"Groups,Directions,Students",
 				"direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
-			cbDirectionOnGroup.Items.AddRange(Connector.Select("derection_name", "Directions").Rows[0].ItemArray);
+			cbDirectionOnGroup.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
+			//cbDirectionOnGroup.Items.AddRange(Connector.Select("derection_name", "Directions").Rows[0].ItemArray);
 		}
 		void SetStatusBarText(object sender, EventArgs e)
 		{
@@ -74,5 +76,15 @@ namespace Academy
 		{
 			SetStatusBarText((dataGridViewStudents.Rows), e);
 		}
+
+		private void btnAddGroup_Click(object sender, EventArgs e)
+		{			
+			if (addGroupForm.ShowDialog()==DialogResult.OK)
+			{
+
+			}
+		}
+		[DllImport("kernel32.dll")]
+		static extern bool AllocConsole();
 	}
 }

@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,42 +15,14 @@ namespace Hw_Acadeny
 	public partial class MainForm : Form
 	{
 
+		AddGroupForm addGroupForm;
 		public MainForm()
 		{
 			InitializeComponent();
 			LoadStudents();
 			LoadGroups();
-			tabControlMain.TabPages.Remove(tbAddNewGroup);
-			Events();
-		}
-		void Events()
-		{
-			btnAddGroup.Click += delegate
-			{
-				foreach (TabPage item in tabControlMain.TabPages)
-					tabControlMain.TabPages.Remove(item);				
-				tabControlMain.TabPages.Add(tbAddNewGroup);
-				DataTable dataTable = new DataTable();
-				dataTable = Connector.Select("derection_name", "Directions ORDER BY direction_id ");
-				for (int i = 0; i < dataTable.Rows.Count; i++)
-					cbDirectionAddGroup.Items.Add(dataTable.Rows[i]["derection_name"]);
-			};
-			btnSaveNewGroup.Click += delegate
-			{
-				Connector.Insert("Groups (group_id,group_name,direction)", $"{Convert.ToInt32(textbIdAddNewGroup.Text)},'{textbNameAddGroup.Text}',{Convert.ToInt32(cbDirectionAddGroup.SelectedIndex) + 1}");
-				tabControlMain.TabPages.Add(tabPageStudent);
-				tabControlMain.TabPages.Add(tabPageGroups);
-				tabControlMain.TabPages.Add(tabPageDiscipline);
-				tabControlMain.TabPages.Add(tabPageTeacher);
-			};
-			btnCancel.Click += delegate
-			{				
-				tabControlMain.TabPages.Remove(tbAddNewGroup);
-				tabControlMain.TabPages.Add(tabPageStudent);
-				tabControlMain.TabPages.Add(tabPageGroups);
-				tabControlMain.TabPages.Add(tabPageDiscipline);
-				tabControlMain.TabPages.Add(tabPageTeacher);
-			};
+			addGroupForm = new AddGroupForm();
+			AllocConsole();
 		}
 		void LoadStudents()
 		{
@@ -60,10 +33,12 @@ namespace Hw_Acadeny
 		void LoadGroups()
 		{
 			dataGridViewGroups.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
-			dataGridViewGroups.DataSource = Connector.Select
-				("group_name,[Nubers of Student]=COUNT(student_id),derection_name",
-				"Groups,Directions,Students"
-				, "direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
+			//dataGridViewGroups.DataSource = Connector.Select
+			//	("group_name,[Nubers of Student]=COUNT(student_id),derection_name",
+			//	"Groups,Directions,Students",
+			//	"direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
+			cbDirectionOnGroup.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
+			dataGridViewGroups.DataSource = Connector.Select("*", "Groups");
 			//cbDirectionOnGroup.Items.AddRange(Connector.Select("derection_name", "Directions").Rows[0].ItemArray);
 		}
 		void SetStatusBarText(object sender, EventArgs e)
@@ -89,9 +64,21 @@ namespace Hw_Acadeny
 				"last_name, first_name, birth_date, group_name, derection_name",
 				"Students, Groups, Directions",
 				$"[group]=group_id and direction = direction_id AND ({search_pattern})");
+		}	
+		
+		[DllImport("kernel32.dll")]
+		static extern bool AllocConsole();
+
+		private void btnAddGroup_Click_1(object sender, EventArgs e)
+		{
+			if (addGroupForm.ShowDialog() == DialogResult.OK)
+			{
+
+			}
+
 		}
 
-		private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
+		private void tabControlMain_SelectedIndexChanged_1(object sender, EventArgs e)
 		{
 			switch ((sender as TabControl).SelectedIndex)
 			{
@@ -104,12 +91,23 @@ namespace Hw_Acadeny
 			}
 		}
 
-		private void MainForm_Load(object sender, EventArgs e)
+		private void MainForm_Load_1(object sender, EventArgs e)
 		{
 			SetStatusBarText((dataGridViewStudents.Rows), e);
+
+		}	
+
+		private void dataGridViewGroups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			Group group = new Group();
+			string a = dataGridViewGroups.CurrentCell.Value.ToString();
+			group.Group_name = a;
+			group.FullGroup();
+			addGroupForm = new AddGroupForm(group);
+			if (addGroupForm.ShowDialog() == DialogResult.OK)
+			{
+
+			}
 		}
-
-
-
 	}
 }

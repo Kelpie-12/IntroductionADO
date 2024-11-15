@@ -12,17 +12,17 @@ namespace Academy
 {
 	class Connector
 	{
-		static readonly string connectionString=ConfigurationManager.ConnectionStrings["ToAcademy"].ConnectionString;
+		static readonly string connectionString = ConfigurationManager.ConnectionStrings["ToAcademy"].ConnectionString;
 		static SqlConnection sqlConnection;
 		static Connector()
 		{
 			sqlConnection = new SqlConnection(connectionString);
 		}
-		public static DataTable Select(string colums, string tables, string condition="")
+		public static DataTable Select(string colums, string tables, string condition = "")
 		{
 			DataTable dt = new DataTable();
 			string cmd = $"SELECT {colums} FROM {tables}";
-			if (condition.Length > 0) 
+			if (condition.Length > 0)
 				cmd += $" WHERE {condition}";
 			SqlCommand command = new SqlCommand(cmd, sqlConnection);
 			sqlConnection.Open();
@@ -44,6 +44,23 @@ namespace Academy
 			sqlConnection.Close();
 
 			return dt;
+		}
+
+		public static List<string> SelectColumn(string colums, string tables)
+		{
+			List<string> values = new List<string>();
+			string cmd = $"SELECT {colums} FROM {tables}";
+			SqlCommand command = new SqlCommand(cmd, sqlConnection);
+			sqlConnection.Open();
+			SqlDataReader reader = command.ExecuteReader();
+			if (reader.HasRows)
+			{
+				while (reader.Read())
+					values.Add(reader[0].ToString());
+			}
+			reader.Close();
+			sqlConnection.Close();
+			return values;
 		}
 	}
 }

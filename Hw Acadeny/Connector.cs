@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -7,14 +8,7 @@ namespace Hw_Acadeny
 	class Connector
 	{
 		static readonly string connectionString = ConfigurationManager.ConnectionStrings["ToAcademy"].ConnectionString;
-		//static SqlConnection sqlConnection;
-		static private SqlConnection sqlConnection;
-
-		static public SqlConnection SqlConnection
-		{
-			get { return sqlConnection; }
-		}
-
+		static SqlConnection sqlConnection;
 		static Connector()
 		{
 			sqlConnection = new SqlConnection(connectionString);
@@ -46,15 +40,62 @@ namespace Hw_Acadeny
 
 			return dt;
 		}
-		public static void Insert(string tables, string values)
+
+		public static List<string> SelectColumn(string colums, string tables)
 		{
-			string cmd = $"INSERT INTO  {tables} VALUES({values})";
+			List<string> values = new List<string>();
+			string cmd = $"SELECT {colums} FROM {tables}";
 			SqlCommand command = new SqlCommand(cmd, sqlConnection);
-			sqlConnection.Open();			
-			command.ExecuteNonQuery();			
+			sqlConnection.Open();
+			SqlDataReader reader = command.ExecuteReader();
+			if (reader.HasRows)
+			{
+				while (reader.Read())
+					values.Add(reader[0].ToString());
+			}
+			reader.Close();
+			sqlConnection.Close();
+			return values;
+		}
+
+		public static void UpdateGroup(Group group)
+		{			
+			string cmd = $"UPDATE Groups SET direction='{group.Direction}'," +
+				$" learning_form='{group.Learning_form}'," +
+				$" learning_time = '{group.Learning_time}'," +
+				$" learning_days = '{group.Learning_days}'," +
+				$" start_date = '{group.Start_date}'," +
+				$"  group_name= '{group.Group_name}' " +
+				$" WHERE  group_id = '{group.Group_id}' ";
+
+			using (var command = new SqlCommand(cmd, sqlConnection))
+			{
+				sqlConnection.Open();
+				command.ExecuteNonQuery();
+			}
+		}
+		public static void AddGroup(Group group)
+		{
+			string cmd = $"INSERT INTO Groups VALUES({group.Group_id}, " +
+				$"'{group.Group_name}' ,{group.Direction+1}, {group.Learning_form+1}," +
+				$" '{group.Start_date}',  '{group.Learning_time}' , {group.Learning_days} )";
+			var command = new SqlCommand(cmd, sqlConnection);
+			sqlConnection.Open();
+			command.ExecuteNonQuery();
 			sqlConnection.Close();
 		}
 
-
+		public static string Query(string s)
+		{
+			string r = string.Empty;
+			var command = new SqlCommand(s, sqlConnection);
+			sqlConnection.Open();
+			SqlDataReader reader = command.ExecuteReader();
+			if (reader.Read())
+				r = reader[0].ToString();
+			reader.Close();
+			sqlConnection.Close();
+			return r;
+		}
 	}
 }
