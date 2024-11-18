@@ -12,6 +12,7 @@ namespace Academy
 {
 	public partial class AddGroupForm : Form
 	{
+		public Group Group { get; set; }	
 		public AddGroupForm()
 		{
 			InitializeComponent();
@@ -39,7 +40,15 @@ namespace Academy
 		}
 		private void btnSaveGroup_Click(object sender, EventArgs e)
 		{
-			GetWeekDays();
+			//GetWeekDays();
+			Group.GroupName = textBGroupName.Text;
+			Group.LearningDays = GetWeekDays();
+			Group.LearningFrom=1;
+		
+			//cbGroupDirection.Items.AddRange();
+		//	Connector.InsertGroup(Group);
+
 		}
+	
 	}
 }

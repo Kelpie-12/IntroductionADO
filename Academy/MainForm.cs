@@ -29,10 +29,16 @@ namespace Academy
 		void LoadGroups()
 		{
 			dataGridViewGroups.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
-			dataGridViewGroups.DataSource = Connector.Select
-				("group_name,[Nubers of Student]=COUNT(student_id),derection_name",
-				"Groups,Directions,Students",
-				"direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
+			dataGridViewGroups.DataSource = Connector.Select(
+				"group_id, group_name, [start_date], learning_time, derection_name, form_name, learning_days ",
+				" Groups, Directions, LearningForms ",
+				" direction=direction_id and learning_form=form_id"
+				); ;
+
+			//dataGridViewGroups.DataSource = Connector.Select
+			//("group_name,[Nubers of Student]=COUNT(student_id),derection_name",
+			//"Groups,Directions,Students",
+			//"direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
 			cbDirectionOnGroup.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
 			//cbDirectionOnGroup.Items.AddRange(Connector.Select("derection_name", "Directions").Rows[0].ItemArray);
 		}
@@ -81,7 +87,8 @@ namespace Academy
 		{			
 			if (addGroupForm.ShowDialog()==DialogResult.OK)
 			{
-
+				//dataGridViewGroups.ClearSelection();
+				LoadGroups();
 			}
 		}
 		[DllImport("kernel32.dll")]

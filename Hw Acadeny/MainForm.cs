@@ -73,7 +73,8 @@ namespace Hw_Acadeny
 		{
 			if (addGroupForm.ShowDialog() == DialogResult.OK)
 			{
-
+				dataGridViewGroups.ClearSelection();
+				dataGridViewGroups.DataSource = Connector.Select("*", "Groups");
 			}
 
 		}
