@@ -18,19 +18,23 @@ namespace Hw_Acadeny
 			InitializeComponent();
 			if (group_name.Group_name != string.Empty)
 			{
+				SetWeekDays(group_name.Learning_days);//
 				textBGroupName.Text = group_name.Group_name;
 				//cbGroupDirection.Items.Add(Connector.Query($"SELECT derection_name FROM Directions WHERE direction_id = {group_name.Direction}"));
 				cbGroupDirection.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
 
-				cbGroupDirection.SelectedItem = cbGroupDirection.Items[group_name.Direction-1];
+				cbGroupDirection.SelectedItem = cbGroupDirection.Items[group_name.Direction - 1];
 				dateTPGroupStart.Text = group_name.Start_date;
 				dateTPGroupTime.Text = group_name.Learning_time;
 				cbLearningForm.Items.AddRange(Connector.SelectColumn("form_name", "LearningForms").ToArray());
 				//Convert.ToInt32(Connector.Query($"SELECT form_name FROM LearningForms WHERE form_id = {group_name.Learning_form}"))
-				cbLearningForm.SelectedItem = cbLearningForm.Items[group_name.Learning_form-1];
-				checkedLBCroup.Items.Clear();//
+				cbLearningForm.SelectedItem = cbLearningForm.Items[group_name.Learning_form - 1];
 			}
-
+		}
+		private void SetWeekDays(byte days)
+		{
+			for (byte i = 0; i < checkedLBCroup.Items.Count; i++)
+				checkedLBCroup.SetItemChecked(i, ((days & (1 << i)) != 0));
 		}
 		public AddGroupForm()
 		{
@@ -77,7 +81,7 @@ namespace Hw_Acadeny
 				Connector.UpdateGroup(group);
 			}
 			Clear();
-			
+
 		}
 		private string FormatDay()
 		{
@@ -94,7 +98,14 @@ namespace Hw_Acadeny
 			textBGroupName.Text = string.Empty;
 			cbGroupDirection.SelectedIndex = 0;
 			cbLearningForm.SelectedIndex = 0;
+			dateTPGroupStart = null;
+			dateTPGroupTime = null;
+			SetWeekDays(0);
 		}
 
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
+			Clear();
+		}
 	}
 }

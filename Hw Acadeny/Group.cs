@@ -39,18 +39,18 @@ namespace Hw_Acadeny
 				SqlDataReader reader = command.ExecuteReader();
 				if (reader.Read())
 				{
-					group_id = Convert.ToInt32(reader[0]);
-					group_name = reader[1].ToString();
-					direction = Convert.ToInt32(reader[2]);
-					learning_form = Convert.ToInt32(reader[3]);
-					start_date = reader[4].ToString();
-					learning_time = reader[5].ToString();
-					//learning_days = Convert.ToByte(reader[6]);
+					Group_id = Convert.ToInt32(reader[0]);
+					Group_name = reader[1].ToString();
+					Direction = Convert.ToInt32(reader[2]);
+					Learning_form = Convert.ToInt32(reader[3]);
+					Start_date = reader[4].ToString();
+					Learning_time = reader[5].ToString();
+					Learning_days = Convert.ToByte(reader[6]);
 				}
 				reader.Close();
 				sqlConnection.Close();
 			}
-		}
-		
+		}	
+
 	}
 }
