@@ -84,10 +84,20 @@ namespace Academy
 		}
 
 		private void btnAddGroup_Click(object sender, EventArgs e)
-		{			
+		{
+			//addGroupForm.ClearData();
 			if (addGroupForm.ShowDialog()==DialogResult.OK)
 			{
 				//dataGridViewGroups.ClearSelection();
+				//LoadGroups();
+				Group group = new Group();
+				group.GroupName = addGroupForm.textBGroupName.Text;
+				group.StartDate=addGroupForm.dateTPGroupStart.Value;
+				group.LearningTime = addGroupForm.dateTPGroupTime.Value.TimeOfDay;
+				group.Direction = addGroupForm.cbGroupDirection.SelectedIndex+1;
+				group.LearningFrom = addGroupForm.cbLearningForm.SelectedIndex+1;
+				group.LearningDays = addGroupForm.GetWeekDays();
+				Connector.InsertGroup(group);
 				LoadGroups();
 			}
 		}

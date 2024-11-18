@@ -1,11 +1,12 @@
-﻿USE PD_311_HW;
-GO
-UPDATE Groups
-SET  direction='5',
-learning_form='1',
-learning_time = '14:00',
-learning_days = '0' ,
-start_date = '2024-11-10' ,
-group_name='PD_3'
-WHERE group_id = 0;
+﻿
+--IF NOT EXISTS (select group_id from Groups where group_name=@group_name) 
+--BEGIN 
+--INSERT  
+--		Groups(group_name, [start_date],learning_time, direction, learning_form, learning_days) 
+--VALUES	('@group_name',  '@start_date', '@learning_time', '@direction', '@learnig_form',  '@learning_days' ) 
+--END
 
+IF NOT EXISTS (select group_id from Groups where group_name='SD_311') BEGIN 
+INSERT  
+		Groups(group_name, [start_date],learning_time, direction, learning_form, learning_days) 
+VALUES	('SD_311',  '18.11.2024 15:22:12', '15:22:12.6795145', '2', '1',  '21' ) end

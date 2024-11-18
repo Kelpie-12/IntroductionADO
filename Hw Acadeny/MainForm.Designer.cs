@@ -49,12 +49,15 @@
 			this.textBoxSearchStudent = new System.Windows.Forms.TextBox();
 			this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
 			this.tabControlMain = new System.Windows.Forms.TabControl();
+			this.dataGridViewDiscipline = new System.Windows.Forms.DataGridView();
 			this.statusStripStudents.SuspendLayout();
+			this.tabPageDiscipline.SuspendLayout();
 			this.tabPageGroups.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGroups)).BeginInit();
 			this.tabPageStudent.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
 			this.tabControlMain.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewDiscipline)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStripStudents
@@ -84,6 +87,7 @@
 			// 
 			// tabPageDiscipline
 			// 
+			this.tabPageDiscipline.Controls.Add(this.dataGridViewDiscipline);
 			this.tabPageDiscipline.Location = new System.Drawing.Point(4, 34);
 			this.tabPageDiscipline.Name = "tabPageDiscipline";
 			this.tabPageDiscipline.Size = new System.Drawing.Size(1065, 495);
@@ -268,6 +272,14 @@
 			this.tabControlMain.TabIndex = 0;
 			this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged_1);
 			// 
+			// dataGridViewDiscipline
+			// 
+			this.dataGridViewDiscipline.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewDiscipline.Location = new System.Drawing.Point(8, 56);
+			this.dataGridViewDiscipline.Name = "dataGridViewDiscipline";
+			this.dataGridViewDiscipline.Size = new System.Drawing.Size(968, 362);
+			this.dataGridViewDiscipline.TabIndex = 0;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -281,6 +293,7 @@
 			this.Load += new System.EventHandler(this.MainForm_Load_1);
 			this.statusStripStudents.ResumeLayout(false);
 			this.statusStripStudents.PerformLayout();
+			this.tabPageDiscipline.ResumeLayout(false);
 			this.tabPageGroups.ResumeLayout(false);
 			this.tabPageGroups.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGroups)).EndInit();
@@ -288,6 +301,7 @@
 			this.tabPageStudent.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
 			this.tabControlMain.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewDiscipline)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -314,6 +328,7 @@
 		private System.Windows.Forms.TextBox textBoxSearchStudent;
 		private System.Windows.Forms.DataGridView dataGridViewStudents;
 		private System.Windows.Forms.TabControl tabControlMain;
+		private System.Windows.Forms.DataGridView dataGridViewDiscipline;
 	}
 }
 

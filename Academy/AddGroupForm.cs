@@ -41,14 +41,29 @@ namespace Academy
 		private void btnSaveGroup_Click(object sender, EventArgs e)
 		{
 			//GetWeekDays();
-			Group.GroupName = textBGroupName.Text;
-			Group.LearningDays = GetWeekDays();
-			Group.LearningFrom=1;
+			//Group.GroupName = textBGroupName.Text;
+			//Group.LearningDays = GetWeekDays();
+			//Group.LearningFrom=1;
 		
 			//cbGroupDirection.Items.AddRange();
 		//	Connector.InsertGroup(Group);
 
 		}
-	
+		public void ClearData()
+		{
+			textBGroupName.Text= string.Empty;
+			cbLearningForm.SelectedIndex = -1;
+			cbGroupDirection.SelectedIndex = -1;
+			dateTPGroupTime.Text = string.Empty;
+			dateTPGroupStart.Text = string.Empty;
+			//dateTPGroupStart.Value = DateTime.MinValue;
+			//dateTPGroupTime.Value = DateTime.MinValue;
+			SetWeekDays(0);
+		}
+
+		private void btnRefresh_Click(object sender, EventArgs e)
+		{
+			ClearData();
+		}
 	}
 }

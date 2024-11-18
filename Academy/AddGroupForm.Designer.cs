@@ -42,6 +42,7 @@
 			this.dateTPGroupStart = new System.Windows.Forms.DateTimePicker();
 			this.btnSaveGroup = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.btnRefresh = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -199,11 +200,24 @@
 			this.btnCancel.Text = "Отмена";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
+			// btnRefresh
+			// 
+			this.btnRefresh.AutoSize = true;
+			this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnRefresh.Location = new System.Drawing.Point(38, 413);
+			this.btnRefresh.Name = "btnRefresh";
+			this.btnRefresh.Size = new System.Drawing.Size(131, 38);
+			this.btnRefresh.TabIndex = 15;
+			this.btnRefresh.Text = "Сбросить";
+			this.btnRefresh.UseVisualStyleBackColor = true;
+			this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+			// 
 			// AddGroupForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(670, 461);
+			this.Controls.Add(this.btnRefresh);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnSaveGroup);
 			this.Controls.Add(this.dateTPGroupStart);
@@ -229,18 +243,19 @@
 		#endregion
 
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBGroupName;
+		internal System.Windows.Forms.TextBox textBGroupName;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.ComboBox cbGroupDirection;
-		private System.Windows.Forms.DateTimePicker dateTPGroupTime;
+		internal System.Windows.Forms.ComboBox cbGroupDirection;
+		internal System.Windows.Forms.DateTimePicker dateTPGroupTime;
 		private System.Windows.Forms.CheckedListBox checkedLBCroup;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.ComboBox cbLearningForm;
+		internal System.Windows.Forms.ComboBox cbLearningForm;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.DateTimePicker dateTPGroupStart;
+		internal System.Windows.Forms.DateTimePicker dateTPGroupStart;
 		private System.Windows.Forms.Button btnSaveGroup;
 		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.Button btnRefresh;
 	}
 }
