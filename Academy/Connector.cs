@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
+using System.Collections;
 
 
 namespace Academy
@@ -14,9 +15,31 @@ namespace Academy
 	{
 		static readonly string connectionString = ConfigurationManager.ConnectionStrings["ToAcademy"].ConnectionString;
 		static SqlConnection sqlConnection;
+		public static Dictionary<string, int> LearningForms ;
+		public static Dictionary<string, int> Directions ;
+
 		static Connector()
 		{
 			sqlConnection = new SqlConnection(connectionString);
+			LearningForms = LoadTableToDictionary("form_id", "form_name", "LearningForms");
+			Directions = LoadTableToDictionary("direction_id", "derection_name", "Directions");
+		}
+		public static Dictionary<string, int> LoadTableToDictionary(string id, string values, string table)
+		{
+			Dictionary<string, int> dictionary = new Dictionary<string, int>();
+			string cmd = $"select {id},{values} from {table}";
+			SqlCommand command = new SqlCommand(cmd, sqlConnection);
+			sqlConnection.Open();
+			SqlDataReader reader = command.ExecuteReader();
+			if (reader.HasRows)
+			{
+				while (reader.Read())
+					dictionary.Add(reader[1].ToString(), Convert.ToInt32(reader[0]));
+				
+			}
+			reader.Close();
+			sqlConnection.Close();
+			return dictionary;
 		}
 		public static DataTable Select(string colums, string tables, string condition = "")
 		{

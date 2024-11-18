@@ -8,7 +8,17 @@ namespace Academy
 {
 	public class Group
 	{
-
+		public Group(Group other)
+		{
+			this.ID = other.ID;
+			this.GroupName = other.GroupName;
+			this.LearningFrom = other.LearningFrom;
+			this.LearningDays = other.LearningDays;
+			this.Direction = other.Direction;
+			this.StartDate = other.StartDate;
+			this.LearningTime = other.LearningTime;
+		}
+		public Group() { }
 		public int ID { get; set; }
 		public string GroupName { get; set; }
 		public int Direction { get; set; }

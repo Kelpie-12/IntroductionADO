@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Academy
 {
 	public partial class AddGroupForm : Form
 	{
-		public Group Group { get; set; }	
+		public Group Group { get; set; }
 		public AddGroupForm()
 		{
 			InitializeComponent();
-			cbLearningForm.Items.AddRange(Connector.SelectColumn("form_name", "LearningForms").ToArray());
-			cbGroupDirection.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
-			SetWeekDays(42);
+			//cbLearningForm.Items.AddRange(Connector.SelectColumn("form_name", "LearningForms").ToArray());
+			//cbGroupDirection.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
+			//SetWeekDays(42);
+			cbLearningForm.Items.AddRange(Connector.LearningForms.Keys.ToArray());
+			cbGroupDirection.Items.AddRange(Connector.Directions.Keys.ToArray());
 		}
 		public byte GetWeekDays()
 		{
@@ -44,14 +40,14 @@ namespace Academy
 			//Group.GroupName = textBGroupName.Text;
 			//Group.LearningDays = GetWeekDays();
 			//Group.LearningFrom=1;
-		
+
 			//cbGroupDirection.Items.AddRange();
-		//	Connector.InsertGroup(Group);
+			//	Connector.InsertGroup(Group);
 
 		}
 		public void ClearData()
 		{
-			textBGroupName.Text= string.Empty;
+			textBGroupName.Text = string.Empty;
 			cbLearningForm.SelectedIndex = -1;
 			cbGroupDirection.SelectedIndex = -1;
 			dateTPGroupTime.Text = string.Empty;
@@ -60,10 +56,22 @@ namespace Academy
 			//dateTPGroupTime.Value = DateTime.MinValue;
 			SetWeekDays(0);
 		}
-
 		private void btnRefresh_Click(object sender, EventArgs e)
 		{
 			ClearData();
+		}
+		public void Init(Group group)
+		{
+			Group = new Group(group);
+			
+			textBGroupName.Text = group.GroupName;
+			cbGroupDirection.SelectedIndex = group.Direction - 1;
+			cbLearningForm.SelectedIndex = group.LearningFrom - 1;
+			SetWeekDays(group.LearningDays);
+			dateTPGroupStart.Value = group.StartDate;
+			dateTPGroupTime.Value = DateTime.Now.Date + group.LearningTime;
+
+
 		}
 	}
 }
