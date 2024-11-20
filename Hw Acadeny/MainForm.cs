@@ -18,13 +18,24 @@ namespace Hw_Acadeny
 	{
 
 		AddGroupForm addGroupForm;
+		DataSet dataSet;
 		public MainForm()
 		{			
 			InitializeComponent();
 			LoadStudents();
 			LoadGroups();
 			addGroupForm = new AddGroupForm();
-			AllocConsole();			
+			AllocConsole();
+			DataSetLoad();
+		}
+		void DataSetLoad()
+		{
+			dataSet = Connector.GetDataSet("Directions");
+			dataSet.Tables.Add(Connector.Select("*", "Groups"));
+			cbDirection.DataSource = dataSet.Tables["Directions"];
+			cbDirection.DisplayMember = "derection_name";
+			cbGroupStudent.DataSource = dataSet.Tables["Groups"];
+			cbGroupStudent.DisplayMember = "group_name";
 		}
 		void LoadStudents()
 		{
@@ -98,11 +109,13 @@ namespace Hw_Acadeny
 		{
 			SetStatusBarText((dataGridViewStudents.Rows), e);
 
-		}	
+		}
+		
 
-		private void dataGridViewGroups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+
+		private void dataGridViewGroups_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
-			Group group = new Group();
+Group group = new Group();
 			string a = dataGridViewGroups.CurrentCell.Value.ToString();
 			group.Group_name = a;
 			group.FullGroup();
@@ -112,5 +125,7 @@ namespace Hw_Acadeny
 
 			}
 		}
+
+	
 	}
 }

@@ -37,7 +37,7 @@ namespace Hw_Acadeny
 			}
 			reader.Close();
 			sqlConnection.Close();
-
+			dt.TableName = tables;
 			return dt;
 		}
 
@@ -55,6 +55,15 @@ namespace Hw_Acadeny
 			}
 			reader.Close();
 			sqlConnection.Close();
+			return values;
+		}
+		public static List<string> SelectColumn(DataTable dataTable)
+		{
+			List<string> values = new List<string>();
+			for (int i = 0; i < dataTable.Rows.Count; i++)
+			{
+				values.Add(dataTable.Rows[0].ToString());
+			}
 			return values;
 		}
 
@@ -98,5 +107,15 @@ namespace Hw_Acadeny
 			sqlConnection.Close();
 			return r;
 		}
+
+		public static DataSet GetDataSet(string table, string colums = "*") 
+		{
+			DataSet dataSet = new DataSet();
+			string sql = $"select {colums} from {table}";
+			SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sql,sqlConnection);
+			SqlCommandBuilder cmd = new SqlCommandBuilder(sqlDataAdapter);
+			sqlDataAdapter.Fill(dataSet, table);
+			return dataSet;
+		}	
 	}
 }

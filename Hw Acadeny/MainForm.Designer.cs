@@ -33,6 +33,7 @@
 			this.toolStripStatusLabelStudentCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tabPageTeacher = new System.Windows.Forms.TabPage();
 			this.tabPageDiscipline = new System.Windows.Forms.TabPage();
+			this.dataGridViewDiscipline = new System.Windows.Forms.DataGridView();
 			this.tabPageGroups = new System.Windows.Forms.TabPage();
 			this.dataGridViewGroups = new System.Windows.Forms.DataGridView();
 			this.btnAddGroup = new System.Windows.Forms.Button();
@@ -49,15 +50,14 @@
 			this.textBoxSearchStudent = new System.Windows.Forms.TextBox();
 			this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
 			this.tabControlMain = new System.Windows.Forms.TabControl();
-			this.dataGridViewDiscipline = new System.Windows.Forms.DataGridView();
 			this.statusStripStudents.SuspendLayout();
 			this.tabPageDiscipline.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewDiscipline)).BeginInit();
 			this.tabPageGroups.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGroups)).BeginInit();
 			this.tabPageStudent.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
 			this.tabControlMain.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewDiscipline)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// statusStripStudents
@@ -95,6 +95,14 @@
 			this.tabPageDiscipline.Text = "Discipline";
 			this.tabPageDiscipline.UseVisualStyleBackColor = true;
 			// 
+			// dataGridViewDiscipline
+			// 
+			this.dataGridViewDiscipline.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewDiscipline.Location = new System.Drawing.Point(8, 56);
+			this.dataGridViewDiscipline.Name = "dataGridViewDiscipline";
+			this.dataGridViewDiscipline.Size = new System.Drawing.Size(968, 362);
+			this.dataGridViewDiscipline.TabIndex = 0;
+			// 
 			// tabPageGroups
 			// 
 			this.tabPageGroups.Controls.Add(this.dataGridViewGroups);
@@ -121,9 +129,11 @@
 			this.dataGridViewGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewGroups.Location = new System.Drawing.Point(10, 71);
 			this.dataGridViewGroups.Name = "dataGridViewGroups";
+			this.dataGridViewGroups.ReadOnly = true;
+			this.dataGridViewGroups.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewGroups.Size = new System.Drawing.Size(1049, 444);
 			this.dataGridViewGroups.TabIndex = 5;
-			this.dataGridViewGroups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewGroups_CellDoubleClick);
+			this.dataGridViewGroups.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewGroups_CellClick);
 			// 
 			// btnAddGroup
 			// 
@@ -191,7 +201,7 @@
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(664, 18);
+			this.label3.Location = new System.Drawing.Point(594, 20);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(133, 25);
 			this.label3.TabIndex = 14;
@@ -202,7 +212,7 @@
 			this.cbDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbDirection.FormattingEnabled = true;
-			this.cbDirection.Location = new System.Drawing.Point(828, 12);
+			this.cbDirection.Location = new System.Drawing.Point(744, 15);
 			this.cbDirection.Name = "cbDirection";
 			this.cbDirection.Size = new System.Drawing.Size(215, 33);
 			this.cbDirection.Sorted = true;
@@ -213,7 +223,7 @@
 			this.cbGroupStudent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbGroupStudent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbGroupStudent.FormattingEnabled = true;
-			this.cbGroupStudent.Location = new System.Drawing.Point(534, 10);
+			this.cbGroupStudent.Location = new System.Drawing.Point(487, 15);
 			this.cbGroupStudent.Name = "cbGroupStudent";
 			this.cbGroupStudent.Size = new System.Drawing.Size(101, 33);
 			this.cbGroupStudent.TabIndex = 12;
@@ -222,7 +232,7 @@
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(433, 18);
+			this.label2.Location = new System.Drawing.Point(405, 18);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(76, 25);
 			this.label2.TabIndex = 11;
@@ -232,7 +242,7 @@
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(20, 20);
+			this.label1.Location = new System.Drawing.Point(8, 15);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(68, 25);
 			this.label1.TabIndex = 10;
@@ -241,7 +251,7 @@
 			// textBoxSearchStudent
 			// 
 			this.textBoxSearchStudent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxSearchStudent.Location = new System.Drawing.Point(110, 15);
+			this.textBoxSearchStudent.Location = new System.Drawing.Point(82, 15);
 			this.textBoxSearchStudent.Name = "textBoxSearchStudent";
 			this.textBoxSearchStudent.Size = new System.Drawing.Size(317, 30);
 			this.textBoxSearchStudent.TabIndex = 9;
@@ -272,14 +282,6 @@
 			this.tabControlMain.TabIndex = 0;
 			this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged_1);
 			// 
-			// dataGridViewDiscipline
-			// 
-			this.dataGridViewDiscipline.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewDiscipline.Location = new System.Drawing.Point(8, 56);
-			this.dataGridViewDiscipline.Name = "dataGridViewDiscipline";
-			this.dataGridViewDiscipline.Size = new System.Drawing.Size(968, 362);
-			this.dataGridViewDiscipline.TabIndex = 0;
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -294,6 +296,7 @@
 			this.statusStripStudents.ResumeLayout(false);
 			this.statusStripStudents.PerformLayout();
 			this.tabPageDiscipline.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewDiscipline)).EndInit();
 			this.tabPageGroups.ResumeLayout(false);
 			this.tabPageGroups.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewGroups)).EndInit();
@@ -301,7 +304,6 @@
 			this.tabPageStudent.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
 			this.tabControlMain.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewDiscipline)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

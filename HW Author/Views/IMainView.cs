@@ -10,5 +10,7 @@ namespace HW_Author.Views
 	{
 		event EventHandler ShowAuthorView;
 		event EventHandler CloseAuthorView;
+		event EventHandler ShowStudentView;
+		event EventHandler CloseStudentView;
 	}
 }

@@ -21,7 +21,7 @@ namespace HW_Author
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			string connectionString = ConfigurationManager.ConnectionStrings["ToLibrary"].ConnectionString;
+			string connectionString = ConfigurationManager.ConnectionStrings["ToAcademy"].ConnectionString;
 			IMainView view = new MainView();
 			new MainPresenter(view,connectionString);
 			Application.Run((Form)view);

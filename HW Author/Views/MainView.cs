@@ -16,9 +16,12 @@ namespace HW_Author.Views
 		{
 			InitializeComponent();
 			buttonAuthor.Click += delegate { ShowAuthorView?.Invoke(this, EventArgs.Empty); };
+			btnStudent.Click += delegate { ShowStudentView?.Invoke(this, EventArgs.Empty); };
 		}
 
 		public event EventHandler ShowAuthorView;
 		public event EventHandler CloseAuthorView;
+		public event EventHandler ShowStudentView;
+		public event EventHandler CloseStudentView;
 	}
 }

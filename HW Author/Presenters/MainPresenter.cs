@@ -20,6 +20,14 @@ namespace HW_Author.Presenters
 			this.mainView = mainView;
 			this.sqlConnectionString = sqlConnectionString;
 			this.mainView.ShowAuthorView += ShowAuthorView;
+			this.mainView.ShowStudentView += ShowStudentView;
+		}
+
+		private void ShowStudentView(object sender, EventArgs e)
+		{
+			IStudentsView view = StudentView.GetInstance((MainView)mainView);
+			IStudentRepository repository = new StudentRepository(sqlConnectionString);
+			new StudentPresenter(view, repository);
 		}
 
 		private void ShowAuthorView(object sender, EventArgs e)
