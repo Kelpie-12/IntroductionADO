@@ -25,6 +25,16 @@ namespace Academy
 			dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
 			dataGridViewStudents.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
 			SetStatusBarText(dataGridViewStudents.Rows, new EventArgs());
+			cbDirection.DataSource = Connector.Select("*","Directions");
+			cbDirection.DisplayMember = "derection_name";
+			cbDirection.ValueMember = "direction_id";
+			cbDirection.SelectedIndex = -1;
+
+			cbGroupStudent.DataSource = Connector.Select("*", "Groups");
+			cbGroupStudent.DisplayMember = "group_name";
+			cbGroupStudent.ValueMember = "group_id";
+			cbGroupStudent.SelectedIndex = -1;
+
 		}
 		void LoadGroups()
 		{
@@ -41,6 +51,11 @@ namespace Academy
 			//"direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
 			cbDirectionOnGroup.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
 			//cbDirectionOnGroup.Items.AddRange(Connector.Select("derection_name", "Directions").Rows[0].ItemArray);
+			for (int i = 0; i < dataGridViewGroups.RowCount; i++)
+			{
+				dataGridViewGroups.Rows[i].Cells["learning_days"].Value =
+					Week.ExtractDaysToString(Convert.ToByte(dataGridViewGroups.Rows[i].Cells["learning_days"].Value));
+			}
 		}
 		void SetStatusBarText(object sender, EventArgs e)
 		{
