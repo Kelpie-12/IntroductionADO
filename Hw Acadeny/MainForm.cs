@@ -27,6 +27,7 @@ namespace Hw_Acadeny
 			Connector.GetDataSet(ref dataSet, "Students");
 			Connector.GetTableForDataSet(ref dataSet, "Directions");
 			Connector.GetTableForDataSet(ref dataSet, "Groups");
+			
 		//	dataSet.Relations.Add(dataSet.Tables["Students"].Columns["group"], dataSet.Tables["Groups"].Columns["group_id"]);
 			cbDirection.DataSource = dataSet.Tables["Directions"];
 			cbDirection.DisplayMember = "derection_name";
@@ -137,7 +138,7 @@ namespace Hw_Acadeny
 
 		private void dataGridViewStudents_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
-			ViewStudent student = new ViewStudent( dataGridViewStudents.Rows[e.RowIndex]);
+			ViewStudent student = new ViewStudent(dataGridViewStudents.Rows[e.RowIndex]);
 
 			if (student.ShowDialog()==DialogResult.OK)
 			{

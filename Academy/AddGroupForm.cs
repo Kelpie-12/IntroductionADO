@@ -37,6 +37,7 @@ namespace Academy
 		private void btnSaveGroup_Click(object sender, EventArgs e)
 		{
 			//GetWeekDays();
+			SaveGroup();
 			//Group.GroupName = textBGroupName.Text;
 			//Group.LearningDays = GetWeekDays();
 			//Group.LearningFrom=1;
@@ -63,14 +64,22 @@ namespace Academy
 		public void Init(Group group)
 		{
 			Group = new Group(group);
-			
+
 			textBGroupName.Text = group.GroupName;
 			cbGroupDirection.SelectedIndex = group.Direction - 1;
 			cbLearningForm.SelectedIndex = group.LearningFrom - 1;
 			SetWeekDays(group.LearningDays);
 			dateTPGroupStart.Value = group.StartDate;
 			dateTPGroupTime.Value = DateTime.Now.Date + group.LearningTime;
-
+		}
+		public void SaveGroup()
+		{
+			Group.GroupName = textBGroupName.Text;
+			Group.StartDate = dateTPGroupStart.Value;
+			Group.LearningTime = dateTPGroupTime.Value.TimeOfDay;
+			Group.Direction = cbGroupDirection.SelectedIndex + 1;
+			Group.LearningFrom = cbLearningForm.SelectedIndex + 1;
+			Group.LearningDays = GetWeekDays();
 
 		}
 	}

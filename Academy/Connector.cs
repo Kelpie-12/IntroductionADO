@@ -19,7 +19,7 @@ namespace Academy
 		{
 			sqlConnection = new SqlConnection(connectionString);
 			LearningForms = LoadTableToDictionary("form_id", "form_name", "LearningForms");
-			Directions = LoadTableToDictionary("direction_id", "derection_name", "Directions");
+			Directions = LoadTableToDictionary("direction_id", "direction_name", "Directions");
 		}
 		public static Dictionary<string, int> LoadTableToDictionary(string id, string values, string table)
 		{
@@ -123,7 +123,7 @@ namespace Academy
 			command.Parameters.Add("@learning_days", SqlDbType.TinyInt).Value = group.LearningDays;
 			command.Parameters.Add("@direction", SqlDbType.Int).Value = group.Direction;
 			command.Parameters.Add("@learning_form", SqlDbType.Int).Value = group.LearningFrom;
-			SqlCommand selectCommand = new SqlCommand($"SELECT group_name, [start_date],learning_time, direction, learning_form, learning_days FROM Groups WHERE group_id = {group.ID}", sqlConnection);
+			SqlCommand selectCommand = new SqlCommand($"SELECT group_id, group_name, [start_date],learning_time,  direction_name, form_name,  learning_days FROM Groups,Directions,LearningForms WHERE group_id = {group.ID} and direction=direction_id and learning_form=form_id", sqlConnection);
 
 
 			sqlConnection.Open();
@@ -141,6 +141,8 @@ namespace Academy
 			}
 			reader.Close();
 			sqlConnection.Close();
+			dt.Rows[0][dt.Columns.Count - 1] =
+				Week.ExtractDaysToString(Convert.ToByte(dt.Rows[0][dt.Columns.Count - 1]));
 			return dt.Rows[0].ItemArray;
 		}
 

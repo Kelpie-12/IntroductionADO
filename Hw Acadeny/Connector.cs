@@ -152,7 +152,7 @@ namespace Hw_Acadeny
 		{
 			adapter = new SqlDataAdapter();
 			adapter.InsertCommand = new SqlCommand($"update Students set last_name = '{row.Rows[0][1]}', first_name = '{row.Rows[0][2]}', middle_name='{row.Rows[0][3]}' ,birth_date='{row.Rows[0][4]}', [group]={row.Rows[0][5]} where student_id = {row.Rows[0][0]}",sqlConnection);
-
+			
 			adapter.Update(row);
 		}
 

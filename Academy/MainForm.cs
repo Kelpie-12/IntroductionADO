@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Runtime.CompilerServices;
+using Microsoft.SqlServer.Server;
+using System.Drawing;
 
 
 namespace Academy
@@ -22,11 +24,11 @@ namespace Academy
 		}
 		void LoadStudents()
 		{
-			dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
+			dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, direction_name", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
 			dataGridViewStudents.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
 			SetStatusBarText(dataGridViewStudents.Rows, new EventArgs());
 			cbDirection.DataSource = Connector.Select("*", "Directions");
-			cbDirection.DisplayMember = "derection_name";
+			cbDirection.DisplayMember = "direction_name";
 			cbDirection.ValueMember = "direction_id";
 			cbDirection.SelectedIndex = -1;
 
@@ -40,17 +42,17 @@ namespace Academy
 		{
 			dataGridViewGroups.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
 			dataGridViewGroups.DataSource = Connector.Select(
-				"group_id, group_name, [start_date], learning_time, derection_name, form_name, learning_days ",
+				"group_id, group_name, [start_date], learning_time, direction_name, form_name, learning_days ",
 				" Groups, Directions, LearningForms ",
 				" direction=direction_id and learning_form=form_id"
 				); ;
 
 			//dataGridViewGroups.DataSource = Connector.Select
-			//("group_name,[Nubers of Student]=COUNT(student_id),derection_name",
+			//("group_name,[Nubers of Student]=COUNT(student_id),direction_name",
 			//"Groups,Directions,Students",
-			//"direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
-			cbDirectionOnGroup.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
-			//cbDirectionOnGroup.Items.AddRange(Connector.Select("derection_name", "Directions").Rows[0].ItemArray);
+			//"direction=direction_id AND [group]=group_id GROUP BY [group_name],direction_name");
+			cbDirectionOnGroup.Items.AddRange(Connector.SelectColumn("direction_name", "Directions").ToArray());
+			//cbDirectionOnGroup.Items.AddRange(Connector.Select("direction_name", "Directions").Rows[0].ItemArray);
 			for (int i = 0; i < dataGridViewGroups.RowCount; i++)
 			{
 				dataGridViewGroups.Rows[i].Cells["learning_days"].Value =
@@ -77,7 +79,7 @@ namespace Academy
 			//else search_pattern = $"last_name LIKE '{values[1]}'  or first_name LIKE '{values[0]}' ";
 
 			dataGridViewStudents.DataSource = Connector.Select(
-				"last_name, first_name, birth_date, group_name, derection_name",
+				"last_name, first_name, birth_date, group_name, direction_name",
 				"Students, Groups, Directions",
 				$"[group]=group_id and direction = direction_id AND ({search_pattern})");
 		}
@@ -132,8 +134,9 @@ namespace Academy
 				//dataGridViewGroups.Rows.RemoveAt(index);
 				//dataGridViewGroups.Rows.Insert(index, Connector.UpdateGroup(group).Rows[0]);
 				//dataGridViewGroups.Rows.Add(Connector.UpdateGroup(group).Rows[0]);
-				
-				dataGridViewGroups.Rows[index].SetValues(Connector.UpdateGroup(group));
+				//Connector.UpdateGroup(group);
+				//dataGridViewGroups.Rows[index].Cells[0].FormattedValue = Color.Red;
+				dataGridViewGroups.Rows[index].SetValues(Connector.UpdateGroup(addGroupForm.Group));
 			}
 
 		}
