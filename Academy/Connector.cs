@@ -123,26 +123,26 @@ namespace Academy
 			command.Parameters.Add("@learning_days", SqlDbType.TinyInt).Value = group.LearningDays;
 			command.Parameters.Add("@direction", SqlDbType.Int).Value = group.Direction;
 			command.Parameters.Add("@learning_form", SqlDbType.Int).Value = group.LearningFrom;
-			SqlCommand selectCommand = new SqlCommand($"SELECT group_id, group_name, [start_date],learning_time,  direction_name, form_name,  learning_days FROM Groups,Directions,LearningForms WHERE group_id = {group.ID} and direction=direction_id and learning_form=form_id", sqlConnection);
-
-
+			
 			sqlConnection.Open();
 			command.ExecuteNonQuery();
-			SqlDataReader reader = selectCommand.ExecuteReader();
-			DataTable dt= new DataTable();
-			for (int i = 0; i < reader.FieldCount; i++)
-				dt.Columns.Add(reader.GetName(i));
-			while (reader.Read())
-			{
-				DataRow row = dt.NewRow();
-				for (int i = 0; i < reader.FieldCount; i++)
-					row[i] = reader[i];
-				dt.Rows.Add(row);
-			}
-			reader.Close();
 			sqlConnection.Close();
+			/*SqlCommand selectCommand = new SqlCommand($"SELECT group_id, group_name, [start_date],learning_time,  direction_name, form_name,  learning_days FROM Groups,Directions,LearningForms WHERE group_id = {group.ID} and direction=direction_id and learning_form=form_id", sqlConnection);
+			//SqlDataReader reader = selectCommand.ExecuteReader();
+			//DataTable dt= new DataTable();
+			//for (int i = 0; i < reader.FieldCount; i++)
+			//	dt.Columns.Add(reader.GetName(i));
+			//while (reader.Read())
+			//{
+			//	DataRow row = dt.NewRow();
+			//	for (int i = 0; i < reader.FieldCount; i++)
+			//		row[i] = reader[i];
+			//	dt.Rows.Add(row);
+			//}
+			reader.Close();*/
+			DataTable dt = Select("group_id, group_name, [start_date],learning_time,  direction_name, form_name,  learning_days", "Groups,Directions,LearningForms", $"group_id = {group.ID} and direction=direction_id and learning_form=form_id");
 			dt.Rows[0][dt.Columns.Count - 1] =
-				Week.ExtractDaysToString(Convert.ToByte(dt.Rows[0][dt.Columns.Count - 1]));
+			Week.ExtractDaysToString(Convert.ToByte(dt.Rows[0][dt.Columns.Count - 1]));
 			return dt.Rows[0].ItemArray;
 		}
 
