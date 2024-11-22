@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Hw_Acadeny
@@ -20,38 +14,49 @@ namespace Hw_Acadeny
 		AddGroupForm addGroupForm;
 		DataSet dataSet;
 		public MainForm()
-		{			
+		{
 			InitializeComponent();
+			DataSetLoad();
 			LoadStudents();
 			LoadGroups();
 			addGroupForm = new AddGroupForm();
 			AllocConsole();
-			DataSetLoad();
 		}
 		void DataSetLoad()
 		{
-			dataSet = Connector.GetDataSet("Directions");
-			dataSet.Tables.Add(Connector.Select("*", "Groups"));
+			Connector.GetDataSet(ref dataSet, "Students");
+			Connector.GetTableForDataSet(ref dataSet, "Directions");
+			Connector.GetTableForDataSet(ref dataSet, "Groups");
+		//	dataSet.Relations.Add(dataSet.Tables["Students"].Columns["group"], dataSet.Tables["Groups"].Columns["group_id"]);
 			cbDirection.DataSource = dataSet.Tables["Directions"];
 			cbDirection.DisplayMember = "derection_name";
 			cbGroupStudent.DataSource = dataSet.Tables["Groups"];
 			cbGroupStudent.DisplayMember = "group_name";
 		}
+		void ReloadData(string table)
+		{
+			dataSet.Tables[table].Clear();
+			Connector.GetDataSet(ref dataSet, table);
+			LoadStudents();
+			LoadGroups();
+		}
 		void LoadStudents()
 		{
-			dataGridViewStudents.DataSource = Connector.Select("last_name, first_name, birth_date, group_name, derection_name", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
+			dataGridViewStudents.DataSource = dataSet.Tables["Students"];
+				//Connector.Select("last_name, first_name, birth_date, group_name, derection_name", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
 			dataGridViewStudents.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
 			SetStatusBarText(dataGridViewStudents.Rows, new EventArgs());
 		}
 		void LoadGroups()
 		{
 			dataGridViewGroups.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
+			dataGridViewGroups.DataSource = dataSet.Tables["Groups"];
 			//dataGridViewGroups.DataSource = Connector.Select
 			//	("group_name,[Nubers of Student]=COUNT(student_id),derection_name",
 			//	"Groups,Directions,Students",
 			//	"direction=direction_id AND [group]=group_id GROUP BY [group_name],derection_name");
-			cbDirectionOnGroup.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
-			dataGridViewGroups.DataSource = Connector.Select("*", "Groups");
+			//cbDirectionOnGroup.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
+			//dataGridViewGroups.DataSource = Connector.Select("*", "Groups");
 			//cbDirectionOnGroup.Items.AddRange(Connector.Select("derection_name", "Directions").Rows[0].ItemArray);
 		}
 		void SetStatusBarText(object sender, EventArgs e)
@@ -77,8 +82,8 @@ namespace Hw_Acadeny
 				"last_name, first_name, birth_date, group_name, derection_name",
 				"Students, Groups, Directions",
 				$"[group]=group_id and direction = direction_id AND ({search_pattern})");
-		}	
-		
+		}
+
 		[DllImport("kernel32.dll")]
 		static extern bool AllocConsole();
 
@@ -88,6 +93,7 @@ namespace Hw_Acadeny
 			{
 				dataGridViewGroups.ClearSelection();
 				dataGridViewGroups.DataSource = Connector.Select("*", "Groups");
+
 			}
 
 		}
@@ -110,22 +116,33 @@ namespace Hw_Acadeny
 			SetStatusBarText((dataGridViewStudents.Rows), e);
 
 		}
-		
+
 
 
 		private void dataGridViewGroups_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
-Group group = new Group();
-			string a = dataGridViewGroups.CurrentCell.Value.ToString();
-			group.Group_name = a;
+			Group group = new Group();
+			group.Group_name = dataGridViewGroups.SelectedRows[0].Cells["group_name"].Value.ToString();
 			group.FullGroup();
 			addGroupForm = new AddGroupForm(group);
 			if (addGroupForm.ShowDialog() == DialogResult.OK)
 			{
-
+				
 			}
 		}
 
-	
+		private void dataGridViewStudents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+		}
+
+		private void dataGridViewStudents_CellClick(object sender, DataGridViewCellEventArgs e)
+		{
+			ViewStudent student = new ViewStudent( dataGridViewStudents.Rows[e.RowIndex]);
+
+			if (student.ShowDialog()==DialogResult.OK)
+			{
+				ReloadData("Students");
+			}
+		}
 	}
 }

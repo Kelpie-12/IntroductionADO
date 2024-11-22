@@ -78,7 +78,7 @@ namespace Hw_Acadeny
 				group.Start_date = FormatDay();
 				group.Learning_time = dateTPGroupTime.Value.ToShortTimeString();
 				group.Learning_days = GetWeekDays();
-				Connector.UpdateGroup(group);
+				//Connector.UpdateGroup(group);
 			}
 			Clear();
 

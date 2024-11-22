@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 
 namespace Academy
@@ -11,8 +12,8 @@ namespace Academy
 	{
 		static readonly string connectionString = ConfigurationManager.ConnectionStrings["ToAcademy"].ConnectionString;
 		static SqlConnection sqlConnection;
-		public static Dictionary<string, int> LearningForms ;
-		public static Dictionary<string, int> Directions ;
+		public static Dictionary<string, int> LearningForms;
+		public static Dictionary<string, int> Directions;
 
 		static Connector()
 		{
@@ -31,7 +32,7 @@ namespace Academy
 			{
 				while (reader.Read())
 					dictionary.Add(reader[1].ToString(), Convert.ToInt32(reader[0]));
-				
+
 			}
 			reader.Close();
 			sqlConnection.Close();
@@ -110,6 +111,37 @@ namespace Academy
 			//command.Parameters.AddRange(parameters);
 			command.ExecuteNonQuery();
 			sqlConnection.Close();
+		}
+		public static object[] UpdateGroup(Group group)
+		{
+			string cmd = $"UPDATE Groups SET group_name = @group_name, [start_date] = @start_date,learning_time = @learning_time, direction=@direction, learning_form = @learning_form, learning_days = @learning_days " +
+				$"WHERE group_id={group.ID}";
+			SqlCommand command = new SqlCommand(cmd, sqlConnection);
+			command.Parameters.Add("@group_name", SqlDbType.VarChar, 16).Value = group.GroupName;
+			command.Parameters.Add("@start_date", SqlDbType.Date).Value = group.StartDate;
+			command.Parameters.Add("@learning_time", SqlDbType.Time).Value = group.LearningTime;
+			command.Parameters.Add("@learning_days", SqlDbType.TinyInt).Value = group.LearningDays;
+			command.Parameters.Add("@direction", SqlDbType.Int).Value = group.Direction;
+			command.Parameters.Add("@learning_form", SqlDbType.Int).Value = group.LearningFrom;
+			SqlCommand selectCommand = new SqlCommand($"SELECT group_name, [start_date],learning_time, direction, learning_form, learning_days FROM Groups WHERE group_id = {group.ID}", sqlConnection);
+
+
+			sqlConnection.Open();
+			command.ExecuteNonQuery();
+			SqlDataReader reader = selectCommand.ExecuteReader();
+			DataTable dt= new DataTable();
+			for (int i = 0; i < reader.FieldCount; i++)
+				dt.Columns.Add(reader.GetName(i));
+			while (reader.Read())
+			{
+				DataRow row = dt.NewRow();
+				for (int i = 0; i < reader.FieldCount; i++)
+					row[i] = reader[i];
+				dt.Rows.Add(row);
+			}
+			reader.Close();
+			sqlConnection.Close();
+			return dt.Rows[0].ItemArray;
 		}
 
 	}
