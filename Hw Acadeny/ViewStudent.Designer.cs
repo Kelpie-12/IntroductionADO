@@ -43,6 +43,8 @@
 			this.btnSaveGroup = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tbStidentId = new System.Windows.Forms.TextBox();
+			this.picBPhotoStudent = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this.picBPhotoStudent)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -64,6 +66,7 @@
 			this.tbStudentLast.Name = "tbStudentLast";
 			this.tbStudentLast.Size = new System.Drawing.Size(370, 32);
 			this.tbStudentLast.TabIndex = 20;
+			this.tbStudentLast.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbStudentLast_KeyPress);
 			// 
 			// label2
 			// 
@@ -84,6 +87,8 @@
 			this.tbStudentName.Name = "tbStudentName";
 			this.tbStudentName.Size = new System.Drawing.Size(370, 32);
 			this.tbStudentName.TabIndex = 22;
+			this.tbStudentName.TextChanged += new System.EventHandler(this.tbStudentName_TextChanged);
+			this.tbStudentName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbStudentName_KeyPress);
 			// 
 			// label3
 			// 
@@ -104,6 +109,7 @@
 			this.tbStudentMiddle.Name = "tbStudentMiddle";
 			this.tbStudentMiddle.Size = new System.Drawing.Size(370, 32);
 			this.tbStudentMiddle.TabIndex = 24;
+			this.tbStudentMiddle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbStudentMiddle_KeyPress);
 			// 
 			// label4
 			// 
@@ -198,11 +204,20 @@
 			this.tbStidentId.Size = new System.Drawing.Size(370, 32);
 			this.tbStidentId.TabIndex = 32;
 			// 
+			// picBPhotoStudent
+			// 
+			this.picBPhotoStudent.Location = new System.Drawing.Point(529, 12);
+			this.picBPhotoStudent.Name = "picBPhotoStudent";
+			this.picBPhotoStudent.Size = new System.Drawing.Size(203, 303);
+			this.picBPhotoStudent.TabIndex = 33;
+			this.picBPhotoStudent.TabStop = false;
+			// 
 			// ViewStudent
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(660, 422);
+			this.ClientSize = new System.Drawing.Size(771, 422);
+			this.Controls.Add(this.picBPhotoStudent);
 			this.Controls.Add(this.tbStidentId);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.btnRefresh);
@@ -220,6 +235,7 @@
 			this.Controls.Add(this.label1);
 			this.Name = "ViewStudent";
 			this.Text = "ViewStudent";
+			((System.ComponentModel.ISupportInitialize)(this.picBPhotoStudent)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -241,5 +257,6 @@
 		private System.Windows.Forms.Button btnSaveGroup;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.TextBox tbStidentId;
+		private System.Windows.Forms.PictureBox picBPhotoStudent;
 	}
 }

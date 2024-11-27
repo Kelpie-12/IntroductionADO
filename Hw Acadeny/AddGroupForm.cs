@@ -21,7 +21,7 @@ namespace Hw_Acadeny
 				SetWeekDays(group_name.Learning_days);//
 				textBGroupName.Text = group_name.Group_name;
 				//cbGroupDirection.Items.Add(Connector.Query($"SELECT derection_name FROM Directions WHERE direction_id = {group_name.Direction}"));
-				cbGroupDirection.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
+				cbGroupDirection.Items.AddRange(Connector.SelectColumn("direction_name", "Directions").ToArray());
 
 				cbGroupDirection.SelectedItem = cbGroupDirection.Items[group_name.Direction - 1];
 				dateTPGroupStart.Text = group_name.Start_date;
@@ -40,7 +40,7 @@ namespace Hw_Acadeny
 		{
 			InitializeComponent();
 			cbLearningForm.Items.AddRange(Connector.SelectColumn("form_name", "LearningForms").ToArray());
-			cbGroupDirection.Items.AddRange(Connector.SelectColumn("derection_name", "Directions").ToArray());
+			cbGroupDirection.Items.AddRange(Connector.SelectColumn("direction_name", "Directions").ToArray());
 		}
 		public byte GetWeekDays()
 		{

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -16,21 +17,22 @@ namespace Hw_Acadeny
 		public MainForm()
 		{
 			InitializeComponent();
+			AllocConsole();
 			DataSetLoad();
 			LoadStudents();
 			LoadGroups();
 			addGroupForm = new AddGroupForm();
-			AllocConsole();
+
 		}
 		void DataSetLoad()
 		{
-			Connector.GetDataSet(ref dataSet, "Students");
+			Connector.GetDataSet(ref dataSet, "Students", "*, 'Photo' as [Photo] ");
 			Connector.GetTableForDataSet(ref dataSet, "Directions");
 			Connector.GetTableForDataSet(ref dataSet, "Groups");
-			
-		//	dataSet.Relations.Add(dataSet.Tables["Students"].Columns["group"], dataSet.Tables["Groups"].Columns["group_id"]);
+
+			//	dataSet.Relations.Add(dataSet.Tables["Students"].Columns["group"], dataSet.Tables["Groups"].Columns["group_id"]);
 			cbDirection.DataSource = dataSet.Tables["Directions"];
-			cbDirection.DisplayMember = "derection_name";
+			cbDirection.DisplayMember = "direction_name";
 			cbGroupStudent.DataSource = dataSet.Tables["Groups"];
 			cbGroupStudent.DisplayMember = "group_name";
 		}
@@ -44,7 +46,13 @@ namespace Hw_Acadeny
 		void LoadStudents()
 		{
 			dataGridViewStudents.DataSource = dataSet.Tables["Students"];
-				//Connector.Select("last_name, first_name, birth_date, group_name, derection_name", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
+			//for (int i = 0; i < dataGridViewStudents.Rows.Count; i++)
+			//{
+			//	DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
+			//	dataGridViewStudents[6, i] = linkCell;		
+			//	Console.WriteLine(i);
+			//}
+			//Connector.Select("last_name, first_name, birth_date, group_name, derection_name", "Students, Groups, Directions", "[group]=group_id and direction = direction_id");
 			dataGridViewStudents.Rows.CollectionChanged += new CollectionChangeEventHandler(SetStatusBarText);
 			SetStatusBarText(dataGridViewStudents.Rows, new EventArgs());
 		}
@@ -80,7 +88,7 @@ namespace Hw_Acadeny
 			//else search_pattern = $"last_name LIKE '{values[1]}'  or first_name LIKE '{values[0]}' ";
 
 			dataGridViewStudents.DataSource = Connector.Select(
-				"last_name, first_name, birth_date, group_name, derection_name",
+				"last_name, first_name, birth_date, group_name, direction_name",
 				"Students, Groups, Directions",
 				$"[group]=group_id and direction = direction_id AND ({search_pattern})");
 		}
@@ -128,7 +136,7 @@ namespace Hw_Acadeny
 			addGroupForm = new AddGroupForm(group);
 			if (addGroupForm.ShowDialog() == DialogResult.OK)
 			{
-				
+
 			}
 		}
 
@@ -140,7 +148,7 @@ namespace Hw_Acadeny
 		{
 			ViewStudent student = new ViewStudent(dataGridViewStudents.Rows[e.RowIndex]);
 
-			if (student.ShowDialog()==DialogResult.OK)
+			if (student.ShowDialog() == DialogResult.OK)
 			{
 				ReloadData("Students");
 			}

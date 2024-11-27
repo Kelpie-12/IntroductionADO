@@ -264,7 +264,6 @@
 			this.dataGridViewStudents.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.dataGridViewStudents.Location = new System.Drawing.Point(3, 56);
 			this.dataGridViewStudents.Name = "dataGridViewStudents";
-			this.dataGridViewStudents.ReadOnly = true;
 			this.dataGridViewStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewStudents.Size = new System.Drawing.Size(1059, 436);
 			this.dataGridViewStudents.TabIndex = 0;
